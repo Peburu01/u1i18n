@@ -68,6 +68,14 @@ Put pages under `src/pages/[locale]/`. On the next `astro dev` or `astro build`,
 | `defaultLocale` | required | The language the templates are written in |
 | `dir` | `u1cms/i18n` | Where the catalogs live |
 
+## Documentation
+
+- [Getting started](https://github.com/Peburu01/u1i18n/blob/main/docs/getting-started.md)
+- [How extraction works](https://github.com/Peburu01/u1i18n/blob/main/docs/extraction.md) · [Catalogs](https://github.com/Peburu01/u1i18n/blob/main/docs/catalogs.md)
+- [Routing and links](https://github.com/Peburu01/u1i18n/blob/main/docs/routing.md) · [Runtime API](https://github.com/Peburu01/u1i18n/blob/main/docs/runtime.md)
+- [Typography for joined scripts](https://github.com/Peburu01/u1i18n/blob/main/docs/typography.md) · [Recipes](https://github.com/Peburu01/u1i18n/blob/main/docs/recipes.md)
+- [Troubleshooting and limits](https://github.com/Peburu01/u1i18n/blob/main/docs/troubleshooting.md)
+
 ## How it compares
 
 | | u1i18n | Key-based i18n libraries |
