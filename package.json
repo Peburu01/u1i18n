@@ -1,0 +1,27 @@
+{
+  "name": "u1i18n",
+  "version": "0.1.0",
+  "description": "Localisation for Astro sites with no markup in the source: every block of copy in the templates is found at build time, inline elements kept as placeholders, and translated from per-locale catalogs the CMS edits.",
+  "type": "module",
+  "exports": {
+    ".": "./src/index.ts",
+    "./runtime": "./src/runtime.ts",
+    "./message": "./src/message.ts"
+  },
+  "scripts": {
+    "test": "bun test",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@astrojs/compiler-rs": "^0.5.3",
+    "entities": "^4.5.0"
+  },
+  "peerDependencies": {
+    "vite": "*"
+  },
+  "devDependencies": {
+    "@types/bun": "^1.4.4",
+    "typescript": "^5.9.3",
+    "vite": "*"
+  }
+}
