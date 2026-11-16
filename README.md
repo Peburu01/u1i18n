@@ -1,6 +1,6 @@
-# u1i18n — zero-markup i18n for Astro
+# u1i18n-astro — zero-markup i18n for Astro
 
-[![npm](https://img.shields.io/npm/v/u1i18n)](https://www.npmjs.com/package/u1i18n)
+[![npm](https://img.shields.io/npm/v/u1i18n-astro)](https://www.npmjs.com/package/u1i18n-astro)
 [![license: MIT](https://img.shields.io/badge/license-MIT-blue)](LICENSE)
 
 **Translate an Astro site without touching its templates.** No `t('hero.title')` calls, no key files, no wrapping every string. Write your pages in one language as plain HTML; u1i18n finds every piece of copy at build time and serves it in each locale.
@@ -37,7 +37,7 @@
 ## Install
 
 ```sh
-npm install u1i18n
+npm install u1i18n-astro
 ```
 
 ## Usage
@@ -45,7 +45,7 @@ npm install u1i18n
 ```js
 // astro.config.mjs
 import { defineConfig } from 'astro/config';
-import { u1i18n } from 'u1i18n';
+import { u1i18n } from 'u1i18n-astro';
 
 const i18n = { locales: ['en', 'ta'], defaultLocale: 'en' };
 

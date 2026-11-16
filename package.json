@@ -1,6 +1,6 @@
 {
-  "name": "u1i18n",
-  "version": "0.1.0",
+  "name": "u1i18n-astro",
+  "version": "0.1.1",
   "description": "Zero-markup i18n for Astro: translate your site without t() calls. A Vite plugin finds every piece of copy at build time, keeps links and formatting as placeholders, and serves per-locale JSON catalogs.",
   "keywords": [
     "astro",

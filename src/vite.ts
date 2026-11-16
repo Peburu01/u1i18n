@@ -95,7 +95,7 @@ export function u1i18n({ root, locales, defaultLocale, dir = 'u1cms/i18n' }: Opt
       if (id === `\0${VIRTUAL}`) {
         // The translator for a page: its locale is the first segment of its path (`/fr/…`).
         const catalogs = Object.fromEntries(translated.map((l) => [l, read(l)]));
-        return `import { createT } from 'u1i18n/runtime';
+        return `import { createT } from 'u1i18n-astro/runtime';
 const catalogs = ${JSON.stringify(catalogs)};
 const locales = ${JSON.stringify(locales)};
 export const translatorFor = (path) => {
