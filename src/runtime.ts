@@ -28,7 +28,15 @@ function headFor(locale: string | undefined) {
   return JOINED.has(script) ? `<style>html:lang(${locale}) *{letter-spacing:normal!important}</style>` : '';
 }
 
-export function createT(catalog: Catalog = {}, { locale, defaultLocale }: { locale?: string; defaultLocale?: string } = {}) {
+export function createT(
+  catalog: Catalog = {},
+  {
+    locale,
+    defaultLocale,
+    locales = [],
+    prefixDefaultLocale = true,
+  }: { locale?: string; defaultLocale?: string; locales?: string[]; prefixDefaultLocale?: boolean } = {},
+) {
   const byText = new Map<string, string>();
   for (const e of Object.values(catalog)) if (e.text && e.value && !byText.has(e.text) && fits(e.value, e.text)) byText.set(e.text, e.value);
 
@@ -51,10 +59,20 @@ export function createT(catalog: Catalog = {}, { locale, defaultLocale }: { loca
     return (text.match(/^\s*/)![0] + to + text.match(/\s*$/)![0] + marker) as T;
   };
   const from = `/${defaultLocale}`;
-  const href = <T>(value: T): T =>
-    typeof value === 'string' && locale && locale !== defaultLocale && (value === from || value.startsWith(`${from}/`) || value.startsWith(`${from}?`) || value.startsWith(`${from}#`))
-      ? (`/${locale}${value.slice(from.length)}` as T)
-      : value;
+  const isUnder = (value: string, prefix: string) =>
+    value === prefix || value.startsWith(`${prefix}/`) || value.startsWith(`${prefix}?`) || value.startsWith(`${prefix}#`);
+  /** A root-relative link to a page: not protocol-relative, not under a locale, not a file (`/logo.svg`). */
+  const isPagePath = (value: string) =>
+    value.startsWith('/') && !value.startsWith('//') && !locales.some((l) => isUnder(value, `/${l}`)) && !/\.[a-z0-9]{2,5}([?#]|$)/i.test(value);
+  const translated = !!locale && locale !== defaultLocale;
+  const href = <T>(value: T): T => {
+    if (typeof value !== 'string') return value;
+    if (prefixDefaultLocale) return (translated && isUnder(value, from) ? `/${locale}${value.slice(from.length)}` : value) as T;
+    // The default locale is served without a prefix: `/en/…` links lose it, and on translated pages every page
+    // link gains the page's locale.
+    const bare = isUnder(value, from) ? value.slice(from.length) || '/' : value;
+    return (translated && isPagePath(bare) ? `/${locale}${bare === '/' ? '/' : bare}` : bare) as T;
+  };
   const deep = <T>(value: T): T => {
     if (Array.isArray(value)) return value.map(deep) as T;
     if (value && typeof value === 'object' && Object.getPrototypeOf(value) === Object.prototype)

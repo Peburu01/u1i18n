@@ -67,6 +67,22 @@ Put pages under `src/pages/[locale]/`. On the next `astro dev` or `astro build`,
 | `locales` | required | Every locale, the default included |
 | `defaultLocale` | required | The language the templates are written in |
 | `dir` | `u1cms/i18n` | Where the catalogs live |
+| `prefixDefaultLocale` | `true` | `false` serves the default locale at the root (`/about`) and only translated locales under a prefix (`/mr/about`) |
+
+### Keep the default language at the root
+
+A site that already ranks on unprefixed URLs keeps them (and its backlinks) by serving the default locale at the root:
+
+```js
+const i18n = { locales: ['en', 'mr'], defaultLocale: 'en' };
+
+export default defineConfig({
+  i18n: { ...i18n, routing: { prefixDefaultLocale: false } },
+  vite: { plugins: [u1i18n({ root: import.meta.dirname, ...i18n, prefixDefaultLocale: false })] },
+});
+```
+
+Put pages under `src/pages/[...locale]/` and give the default locale no segment in `getStaticPaths` (`{ locale: undefined }` for `en`, `'mr'` for Marathi). Write links as plain `/about`; on translated pages they become `/mr/about`.
 
 ## Documentation
 

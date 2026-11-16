@@ -18,6 +18,11 @@ export type Options = {
   defaultLocale: string;
   /** Where the catalogs are, from the root. */
   dir?: string;
+  /**
+   * Whether default-locale pages live under their own prefix (`/en/…`, the default) or at the site root (`/…`), as
+   * with Astro's `i18n.routing.prefixDefaultLocale`. Root keeps existing URLs (and their backlinks) unchanged.
+   */
+  prefixDefaultLocale?: boolean;
 };
 
 const VIRTUAL = 'virtual:u1i18n';
@@ -42,7 +47,7 @@ function messagesOf(file: string, path: string) {
   return analyzeModule(file.endsWith('.json') ? `export default ${source}` : source, path);
 }
 
-export function u1i18n({ root, locales, defaultLocale, dir = 'u1cms/i18n' }: Options): Plugin {
+export function u1i18n({ root, locales, defaultLocale, dir = 'u1cms/i18n', prefixDefaultLocale = true }: Options): Plugin {
   const src = join(root, 'src');
   const translated = locales.filter((l) => l !== defaultLocale);
   const fileOf = (locale: string) => join(root, dir, `${locale}.json`);
@@ -100,7 +105,7 @@ const catalogs = ${JSON.stringify(catalogs)};
 const locales = ${JSON.stringify(locales)};
 export const translatorFor = (path) => {
   const locale = path.split('/')[1];
-  return createT(catalogs[locale], { locale: locales.includes(locale) ? locale : ${JSON.stringify(defaultLocale)}, defaultLocale: ${JSON.stringify(defaultLocale)} });
+  return createT(catalogs[locale], { locale: locales.includes(locale) ? locale : ${JSON.stringify(defaultLocale)}, defaultLocale: ${JSON.stringify(defaultLocale)}, locales, prefixDefaultLocale: ${JSON.stringify(prefixDefaultLocale)} });
 };`;
       }
       // The template as Astro will compile it: read here, before any transform, so positions are the file's own.
